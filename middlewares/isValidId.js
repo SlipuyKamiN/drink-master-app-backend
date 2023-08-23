@@ -1,6 +1,6 @@
-const { isValidObjectId } = require("mongoose");
+import { isValidObjectId } from "mongoose";
 
-const { HttpError } = require("../utils/HttpError.js");
+import { HttpError } from "../utils/HttpError.js";
 
 const isValidId = (req, res, next) => {
   const { contactId } = req.params;
@@ -10,4 +10,4 @@ const isValidId = (req, res, next) => {
   next();
 };
 
-module.exports = isValidId;
+export { isValidId };

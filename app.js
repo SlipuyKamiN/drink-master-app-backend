@@ -1,8 +1,11 @@
-const express = require("express");
-const logger = require("morgan");
-const cors = require("cors");
-
-// const qRouter = require("./routes/api/routes");
+import express from "express";
+import logger from "morgan";
+import cors from "cors";
+import usersRouter from "./routes/api/users.js";
+import cocktailsRouter from "./routes/api/cocktails.js";
+import ingredientsRouter from "./routes/api/ingredients.js";
+import categoriesRouter from "./routes/api/categories.js";
+import glassesRouter from "./routes/api/glasses.js";
 
 const app = express();
 
@@ -13,7 +16,11 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 
-// app.use("/api/routes", qRouter);
+app.use("/users", usersRouter);
+app.use("/api/ingredients", ingredientsRouter);
+app.use("/api/cocktails", cocktailsRouter);
+app.use("/api/categories", categoriesRouter);
+app.use("/api/glasses", glassesRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
@@ -25,4 +32,4 @@ app.use((err, req, res, next) => {
   res.status(status).json({ message });
 });
 
-module.exports = app;
+export default app;

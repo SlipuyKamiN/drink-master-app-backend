@@ -1,4 +1,4 @@
-const { HttpError } = require("../utils/HttpError.js");
+import { HttpError } from "../utils/HttpError.js";
 
 const isEmptyBody = (req, res, next) => {
   const { length } = Object.keys(req.body);
@@ -8,4 +8,4 @@ const isEmptyBody = (req, res, next) => {
   next();
 };
 
-module.exports = isEmptyBody;
+export { isEmptyBody };

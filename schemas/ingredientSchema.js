@@ -1,4 +1,4 @@
-const Joi = require("joi");
+import Joi from "joi";
 
 const emptySchema = Joi.object()
   .min(1)
@@ -11,10 +11,10 @@ const isValidId = Joi.object({
   }),
 });
 
-const qSchema = Joi.object({});
+const ingredientSchema = Joi.object({});
 
-module.exports = {
+export default {
   emptySchema,
-  qSchema,
+  ingredientSchema,
   isValidId,
 };

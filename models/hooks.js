@@ -8,7 +8,4 @@ const handleUpdateValidate = (next) => {
   next();
 };
 
-module.exports = {
-  handleSaveError,
-  handleUpdateValidate,
-};
+export { handleSaveError, handleUpdateValidate };
