@@ -5,6 +5,8 @@ import usersRouter from "./routes/api/users.js";
 import cocktailsRouter from "./routes/api/cocktails.js";
 import ingredientsRouter from "./routes/api/ingredients.js";
 import glassesRouter from "./routes/api/glasses.js";
+import swaggerUi from "swagger-ui-express";
+import swaggerDocument from "./swagger.json" assert { type: "json" };
 
 const app = express();
 
@@ -19,6 +21,7 @@ app.use("/auth", usersRouter);
 app.use("/api/ingredients", ingredientsRouter);
 app.use("/api/recipes", cocktailsRouter);
 app.use("/api/glass", glassesRouter);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
