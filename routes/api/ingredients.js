@@ -1,10 +1,7 @@
 import express from "express";
 import ctrl from "../../controllers/ingredients.js";
 import schemas from "../../schemas/ingredientSchema.js";
-import { validateBody } from "../../middlewares/validateBody.js";
-import { isEmptyBody } from "../../middlewares/isEmptyBody.js";
-import { isValidId } from "../../middlewares/isValidId.js";
-import authenticate from "../../middlewares/authenticate.js";
+import { validateBody, isEmptyBody, isValidId, authenticate, upload } from "../../middlewares/index.js";
 
 const router = express.Router();
 

@@ -1,7 +1,5 @@
 import Ingredient from "../models/ingredients.js";
-
-import { HttpError } from "../utils/HttpError.js";
-import { ctrlWrapper } from "../utils/ctrlWrapper.js";
+import { HttpError, ctrlWrapper } from "../utils/index.js";
 
 const getAll = async (req, res) => {
   const data = "some Ingredient data";

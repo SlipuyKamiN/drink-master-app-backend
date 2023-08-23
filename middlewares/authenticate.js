@@ -1,7 +1,6 @@
-import { HttpError } from "../utils/HttpError.js";
 import jwt from "jsonwebtoken";
-import { ctrlWrapper } from "../utils/ctrlWrapper.js";
 import "dotenv/config";
+import { ctrlWrapper, HttpError } from "../utils/index.js";
 import User from "../models/users.js";
 
 const { JWT_SECRET } = process.env;

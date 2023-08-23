@@ -1,0 +1,1 @@
+export { default as getAllCategories} from "./getAllCategories.js"

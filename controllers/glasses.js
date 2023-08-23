@@ -1,4 +1,4 @@
-import { ctrlWrapper } from "../utils/ctrlWrapper.js";
+import { ctrlWrapper } from "../utils/index.js";
 
 const getAll = async (req, res) => {
   const data = "some glasses data";

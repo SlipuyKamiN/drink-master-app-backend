@@ -1,4 +1,4 @@
-import { HttpError } from "../utils/HttpError.js";
+import { HttpError } from "../utils/index.js";
 
 const isEmptyBody = (req, res, next) => {
   const { length } = Object.keys(req.body);
@@ -8,4 +8,4 @@ const isEmptyBody = (req, res, next) => {
   next();
 };
 
-export { isEmptyBody };
+export default isEmptyBody;
