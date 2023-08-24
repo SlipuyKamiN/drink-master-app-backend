@@ -2,6 +2,7 @@ import express from "express";
 import logger from "morgan";
 import cors from "cors";
 import usersRouter from "./routes/api/users.js";
+import subscribeRouter from "./routes/api/subscribe.js";
 import cocktailsRouter from "./routes/api/cocktails.js";
 import ingredientsRouter from "./routes/api/ingredients.js";
 import glassesRouter from "./routes/api/glasses.js";
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 app.use("/auth", usersRouter);
+app.use("api/subscribe", subscribeRouter);
 app.use("/api/ingredients", ingredientsRouter);
 app.use("/api/recipes", cocktailsRouter);
 app.use("/api/glass", glassesRouter);

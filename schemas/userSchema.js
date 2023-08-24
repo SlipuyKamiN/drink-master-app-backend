@@ -12,6 +12,13 @@ const userSigninSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
 });
 
+const userEmailSchema = Joi.object({
+  email: Joi.string()
+    .pattern(emailRegexp)
+    .required()
+    .messages({ "any.required": "missing required field email" }),
+});
+
 const emptySchema = Joi.object()
   .min(1)
   .messages({ "object.min": "Missing fields" });
@@ -28,6 +35,7 @@ const userSchema = Joi.object({});
 export default {
   userSignupSchema,
   userSigninSchema,
+  userEmailSchema,
   emptySchema,
   userSchema,
   isValidId,
