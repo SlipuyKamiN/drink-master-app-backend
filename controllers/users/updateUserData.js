@@ -10,7 +10,7 @@ const updateUserData = async (req, res) => {
     throw HttpError(404);
   }
   const {email, name } = result;
-  res.json({ email, subscription });
+  res.json({ email, name});
 };
 
 export default ctrlWrapper(updateUserData);
