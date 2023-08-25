@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose";
 import { emailRegexp } from "../constants/user-constants.js";
-
 import { handleSaveError, handleUpdateValidate } from "./hooks.js";
 
 const userSchema = new Schema(
@@ -20,7 +19,10 @@ const userSchema = new Schema(
     },
     token: String,
     avatarURL: String,
-    
+    subscription: {
+      type: Boolean,
+      default: false,
+    }
   },
   { versionKey: false, timestamps: true }
 );

@@ -1,4 +1,4 @@
-// import nodemailer from "nodemailer";
+import nodemailer from "nodemailer";
 
 const { UKR_NET_EMAIL, UKR_NET_PASSWORD } = process.env;
 
@@ -12,11 +12,11 @@ const nodemailerConfig = {
   },
 };
 
-// const transport = nodemailer.createTransport(nodemailerConfig);
+const transport = nodemailer.createTransport(nodemailerConfig);
 
 const sendEmail = async (data) => {
   const email = { ...data, from: UKR_NET_EMAIL };
-  // return transport.sendMail(email);
+  return transport.sendMail(email);
 };
 
 export default sendEmail;

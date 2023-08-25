@@ -4,7 +4,7 @@ import {
   login,
   getCurrent,
   logout,
-  updateAvatar,
+  updateUser,
 } from "../../controllers/users/index.js";
 import schemas from "../../schemas/userSchema.js";
 import { validateBody, authenticate, upload } from "../../middlewares/index.js";
@@ -19,6 +19,6 @@ router.get("/current", authenticate, getCurrent);
 
 router.post("/logout", authenticate, logout);
 
-router.patch("/avatars", authenticate, upload.single("avatar"), (req, res) => console.log(req.file), updateAvatar);
+router.patch("/user", authenticate, upload.single("avatar"), (req, res) => console.log(req.file), updateUser);
 
 export default router;
