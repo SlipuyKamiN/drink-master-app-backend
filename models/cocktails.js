@@ -37,6 +37,8 @@ const cocktailSchema = new Schema(
         "thumb-small": String,
       },
     ],
+    owner: String,
+    users: [String],
   },
   { versionKey: false, timestamps: true }
 );
