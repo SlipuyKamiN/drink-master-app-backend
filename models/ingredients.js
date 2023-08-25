@@ -1,18 +1,24 @@
 import { Schema, model } from "mongoose";
 
-import { handleSaveError, handleUpdateValidate } from "./hooks.js";
+const ingredientSchema = new Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  ingredientThumb: {
+    type: String,
+    required: true,
+  },
+  "thumb-medium": {
+    type: String,
+    required: true,
+  },
+  "thumb-small": {
+    type: String,
+    required: true,
+  },
+});
 
-const ingredientSchema = new Schema(
-  {},
-  { versionKey: false, timestamps: true }
-);
-
-ingredientSchema.pre("findByIdAndUpdate", handleUpdateValidate);
-
-ingredientSchema.post("save", handleSaveError);
-
-ingredientSchema.post("findByIdAndUpdate", handleSaveError);
-
-const Ingredient = model("ingredient", ingredientSchema);
+const Ingredient = model("Ingredient", ingredientSchema);
 
 export default Ingredient;
