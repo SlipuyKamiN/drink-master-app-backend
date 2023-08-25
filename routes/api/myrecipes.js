@@ -11,8 +11,15 @@ const router = express.Router();
 
 // router.use(authenticate);
 
-router.post("/", validateBody(schemas.cocktailSchema), addMyRecipe);
-router.delete("/", deleteMyRecipe);
+router.post(
+  "/",
+  validateBody(schemas.cocktailSchema),
+  authenticate,
+  upload.single("recipe"),
+  (req, res) => console.log(req.file),
+  addMyRecipe
+);
+router.delete("/:id", deleteMyRecipe);
 router.get("/", getMyRecipes);
 
 export default router;

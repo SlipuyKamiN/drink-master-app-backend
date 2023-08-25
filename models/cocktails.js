@@ -13,7 +13,7 @@ const cocktailSchema = new Schema(
     IBA: String,
     alcoholic: {
       type: String,
-      required: [true, "Alcoholic/non-alcoholic required"],
+      // required: [true, "Alcoholic/non-alcoholic required"],
     },
     glass: { type: String, required: [true, "Glass type required"] },
     instructions: {
