@@ -5,6 +5,7 @@ import {
   getDrinkById,
   getDrinksByQuery,
   getMainDrinks,
+  getFavorites,
 } from "../../controllers/recipes/index.js";
 
 import { isValidId, authenticate } from "../../middlewares/index.js";
@@ -17,12 +18,12 @@ router.get("/category-list", getAllCategories);
 
 router.get("/main-page", getMainDrinks);
 
+router.get("/favorites", getFavorites);
+
 router.get("/:id", isValidId, getDrinkById);
 
 router.get("/", getDrinksByQuery);
 
 router.patch("/favorites/:id", isValidId, updateFavorites);
-
-// router.patch("/favorites/:id", deleteFavorites);
 
 export default router;
