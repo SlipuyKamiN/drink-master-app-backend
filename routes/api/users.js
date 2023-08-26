@@ -19,6 +19,6 @@ router.get("/current", authenticate, getCurrent);
 
 router.post("/logout", authenticate, logout);
 
-router.patch("/user", authenticate, upload.single("avatar"), (req, res) => console.log(req.file), updateUser);
+router.patch("/user", authenticate, upload.single("avatar"), updateUser);
 
 export default router;
