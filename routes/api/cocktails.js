@@ -1,30 +1,29 @@
 import express from "express";
 import {
+  updateFavorites,
   getAllCategories,
   getDrinkById,
   getDrinksByQuery,
   getMainDrinks,
+  getFavorites,
 } from "../../controllers/recipes/index.js";
 
-// import schemas from "../../schemas/cocktailSchema.js";
-import {
-  validateBody,
-  isEmptyBody,
-  isValidId,
-  authenticate,
-  upload,
-} from "../../middlewares/index.js";
+import { isValidId, authenticate } from "../../middlewares/index.js";
 
 const router = express.Router();
 
-// router.use(authenticate);
+router.use(authenticate);
 
 router.get("/category-list", getAllCategories);
 
 router.get("/main-page", getMainDrinks);
 
+router.get("/favorites", getFavorites);
+
 router.get("/:id", isValidId, getDrinkById);
 
 router.get("/", getDrinksByQuery);
+
+router.patch("/favorites/:id", isValidId, updateFavorites);
 
 export default router;

@@ -27,8 +27,6 @@ let authenticate = async (req, res, next) => {
     console.log(error);
     throw HttpError(401, "Not authorized");
   }
-
-  next();
 };
 
-export default authenticate = ctrlWrapper(authenticate);
+export default ctrlWrapper(authenticate);
