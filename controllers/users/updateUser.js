@@ -5,14 +5,18 @@ const updateUser = async (req, res) => {
   const { _id } = req.user;
   const { name } = req.body;
 
+  let updatedFields = { name };
+
   if (req.file) {
-    const avatarURL = req.file.path;
-    await User.findByIdAndUpdate(_id, { avatarURL, name });
-  } else {
-    await User.findByIdAndUpdate(_id, { name });
+    updatedFields.avatarURL = req.file.path;
   }
 
-  res.json({ avatarURL, name });
+  await User.findByIdAndUpdate(_id, updatedFields);
+
+  const updatedUser = await User.findById(_id);
+  const { avatarURL, name: updatedName } = updatedUser;
+
+  res.json({ avatarURL, name: updatedName });
 };
 
 export default ctrlWrapper(updateUser);
