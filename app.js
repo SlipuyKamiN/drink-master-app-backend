@@ -1,12 +1,16 @@
 import express from "express";
 import logger from "morgan";
 import cors from "cors";
+import fs from "fs/promises";
 import usersRouter from "./routes/api/users.js";
 import cocktailsRouter from "./routes/api/cocktails.js";
 import ingredientsRouter from "./routes/api/ingredients.js";
 import glassesRouter from "./routes/api/glasses.js";
 import swaggerUi from "swagger-ui-express";
-import swaggerDocument from "./swagger.json" assert { type: "json" };
+import path from "path";
+
+const swaggerPath = path.resolve("", "swagger.json");
+const swaggerDocument = JSON.parse(await fs.readFile(swaggerPath));
 
 const app = express();
 
