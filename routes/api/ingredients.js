@@ -5,7 +5,7 @@ import { authenticate } from "../../middlewares/index.js";
 
 const router = express.Router();
 
-// router.use(authenticate);
+router.use(authenticate);
 
 router.get("/list", getIngredients);
 

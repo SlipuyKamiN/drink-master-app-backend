@@ -13,7 +13,6 @@ const cocktailSchema = new Schema(
     IBA: String,
     alcoholic: {
       type: String,
-      // required: [true, "Alcoholic/non-alcoholic required"],
     },
     glass: { type: String, required: [true, "Glass type required"] },
     instructions: {
@@ -30,7 +29,6 @@ const cocktailSchema = new Schema(
     drinkThumb: String,
     ingredients: [
       {
-        // id: { type: Schema.Types.ObjectId, ref: "ingredient" },
         title: String,
         measure: String,
         ingredientThumb: String,
