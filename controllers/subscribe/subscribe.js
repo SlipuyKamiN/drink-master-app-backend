@@ -1,4 +1,4 @@
-import { ctrlWrapper } from "../../utils/index.js";
+import { HttpError, ctrlWrapper } from "../../utils/index.js";
 import { sendEmail } from "../../helpers/index.js";
 import User from "../../models/users.js";
 
@@ -6,6 +6,10 @@ const subscribe = async (req, res) => {
   const { email } = req.body;
   try {
     const user = await User.findOne({ email });
+
+    if (!user) {
+      throw HttpError(404, "User not found");
+    }
 
     await User.findByIdAndUpdate(
       user._id,
