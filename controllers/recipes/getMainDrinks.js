@@ -25,32 +25,28 @@ async function getDrinksInCategory(category) {
 }
 
 const getMainDrinks = async (req, res) => {
-  try {
-    const data = await fs.readFile(categoriesPath);
-    const allCategories = JSON.parse(data);
-    const numRandomCategories = 4;
-    const randomCategories = getRandomCategories(
-      allCategories,
-      numRandomCategories
-    );
+  const data = await fs.readFile(categoriesPath);
+  const allCategories = JSON.parse(data);
+  const numRandomCategories = 4;
+  const randomCategories = getRandomCategories(
+    allCategories,
+    numRandomCategories
+  );
 
-    const result = [];
+  const result = [];
 
-    for (const category of randomCategories) {
-      const drinksInCategory = await getDrinksInCategory(category);
-      if (!drinksInCategory) {
-        throw HttpError(404, "Sorry, no drinks were found");
-      }
-      result.push({
-        category,
-        drinks: drinksInCategory.slice(0, 3),
-      });
+  for (const category of randomCategories) {
+    const drinksInCategory = await getDrinksInCategory(category);
+    if (!drinksInCategory) {
+      throw HttpError(404, "Sorry, no drinks were found");
     }
-
-    res.json(result);
-  } catch (error) {
-    res.status(500).json({ error: "Error retrieving main drink categories." });
+    result.push({
+      category,
+      drinks: drinksInCategory.slice(0, 3),
+    });
   }
+
+  res.json(result);
 };
 
 export default ctrlWrapper(getMainDrinks);
