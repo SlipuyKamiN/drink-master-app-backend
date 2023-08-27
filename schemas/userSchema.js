@@ -20,9 +20,6 @@ const userEmailSchema = Joi.object({
 });
 
 
-
-const userSchema = Joi.object({});
-
 export default {
   userSignupSchema,
   userSigninSchema,

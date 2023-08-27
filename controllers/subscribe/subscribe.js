@@ -1,24 +1,24 @@
 import { ctrlWrapper } from "../../utils/index.js";
 import { sendEmail } from "../../helpers/index.js";
-// import User from "../../models/users.js";
+import User from "../../models/users.js";
 
 const subscribe = async (req, res) => {
   const { email } = req.body;
-  // try {
-  //   const user = await User.findOne({ email });
+  try {
+    const user = await User.findOne({ email });
 
-  //   await User.findByIdAndUpdate(
-  //     user._id,
-  //     {
-  //       subscription: true,
-  //     },
-  //     {
-  //       new: true,
-  //     }
-  //   );
-  // } catch (error) {
-  //   throw error;
-  // }
+    await User.findByIdAndUpdate(
+      user._id,
+      {
+        subscription: true,
+      },
+      {
+        new: true,
+      }
+    );
+  } catch (error) {
+    throw error;
+  }
 
   const subscribeEmail = {
     to: email,

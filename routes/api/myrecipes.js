@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.post(
   "/",
-  // validateBody(schemas.cocktailSchema),
+  validateBody(schemas.cocktailSchema),
   authenticate,
   upload.single("recipe"),
   addMyRecipe

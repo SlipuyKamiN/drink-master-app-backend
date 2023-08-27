@@ -14,16 +14,16 @@ const userSchema = new Schema(
     },
     email: {
       type: String,
-      required: [true, "Email is required"],
       match: emailRegexp,
       unique: true,
+      required: [true, "Email is required"],
     },
     token: String,
     avatarURL: String,
     subscription: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   { versionKey: false, timestamps: true }
 );

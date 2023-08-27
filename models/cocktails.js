@@ -34,7 +34,6 @@ const cocktailSchema = new Schema(
         ingredientThumb: String,
         thumbMedium: String,
         thumbSmall: String,
-        amount: String,
       },
     ],
     owner: {
