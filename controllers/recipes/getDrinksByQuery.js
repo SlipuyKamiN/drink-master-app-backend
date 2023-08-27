@@ -18,24 +18,20 @@ const getDrinksByQuery = async (req, res) => {
     };
   }
 
-  try {
-    const totalHits = await Cocktail.countDocuments(query);
-    const pageNumber = parseInt(page);
-    const skip = (pageNumber - 1) * limit;
+  const totalHits = await Cocktail.countDocuments(query);
+  const pageNumber = parseInt(page);
+  const skip = (pageNumber - 1) * limit;
 
-    const drinks = await Cocktail.find(query)
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit);
+  const drinks = await Cocktail.find(query)
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(limit);
 
-    if (drinks.length === 0) {
-      throw HttpError(404, "No drinks were found");
-    }
-
-    res.json({ totalHits, drinks });
-  } catch (error) {
-    res.status(error.statusCode || 500).json({ error: error.message });
+  if (drinks.length === 0) {
+    throw HttpError(404, "No drinks were found");
   }
+
+  res.json({ totalHits, drinks });
 };
 
 export default ctrlWrapper(getDrinksByQuery);
