@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { emailRegexp, passwordRegexp } from "../constants/user-constants.js";
+import { emailRegexp} from "../constants/user-constants.js";
 import { handleSaveError, handleUpdateValidate } from "./hooks.js";
 
 const userSchema = new Schema(
@@ -9,7 +9,6 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      match: passwordRegexp,
       required: [true, "Set password for user"],
     },
     email: {
