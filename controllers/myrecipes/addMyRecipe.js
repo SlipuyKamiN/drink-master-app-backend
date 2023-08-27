@@ -39,33 +39,6 @@ const addMyRecipe = async (req, res) => {
   });
 
   res.status(201).json(result);
-
-  // const updatedIngredients = result.ingredients.map((ingredient) => {
-  //   const matchingIngredient = ingredientsArray.find(
-  //     (data) => data.title === ingredient.title
-  //   );
-
-  //   // this part of code doesn't work
-
-  //   if (matchingIngredient) {
-  //     return {
-  //       ...ingredient,
-  //       ingredientThumb: matchingIngredient.ingredientThumb,
-  //       // "thumb-medium": matchingIngredient["thumb-medium"],
-  //       // "thumb-small": matchingIngredient["thumb-small"],
-  //     };
-  //   } else {
-  //     return ingredient;
-  //   }
-  // });
-
-  // console.log(updatedIngredients);
-
-  // const finalResult = await Cocktail.findByIdAndUpdate(
-  //   result._id,
-  //   // { ingredients: updatedIngredients },
-  //   { new: true, runValidators: true }
-  // );
 };
 
 export default ctrlWrapper(addMyRecipe);

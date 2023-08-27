@@ -32,7 +32,7 @@ const cocktailSchema = new Schema(
       {
         // id: { type: Schema.Types.ObjectId, ref: "ingredient" },
         title: String,
-        measurement: String,
+        measure: String,
         ingredientThumb: String,
         thumbMedium: String,
         thumbSmall: String,
