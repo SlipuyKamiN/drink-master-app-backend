@@ -11,14 +11,14 @@ const deleteMyRecipe = async (req, res) => {
     throw HttpError(404, "Drink with such id was not found");
   }
 
-  if (drink.owner !== user) {
+  if (drink.owner.toString() !== user.toString()) {
     throw HttpError(403, "You are not authorized to delete this recipe");
   }
 
   const deletedDrink = await Cocktail.findByIdAndDelete(id);
 
   res.json({
-    message: `${deletedDrink} has been deleted`,
+    message: `${deletedDrink.drink} has been deleted`,
   });
 };
 
