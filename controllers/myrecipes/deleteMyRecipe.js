@@ -3,17 +3,23 @@ import Cocktail from "../../models/cocktails.js";
 
 const deleteMyRecipe = async (req, res) => {
   const { id } = req.params;
+  const { _id: user } = req.user;
 
-  const result = await Cocktail.findByIdAndDelete(id);
+  const drink = await Cocktail.findById(id);
 
-  if (!result) {
-    throw HttpError(404, "Recipe with such id is not found");
+  if (!drink) {
+    throw HttpError(404, "Drink with such id was not found");
   }
 
+  if (drink.owner !== user) {
+    throw HttpError(403, "You are not authorized to delete this recipe");
+  }
+
+  const deletedDrink = await Cocktail.findByIdAndDelete(id);
+
   res.json({
-    message: "Recipe deleted",
+    message: `${deletedDrink} has been deleted`,
   });
 };
-
 
 export default ctrlWrapper(deleteMyRecipe);
