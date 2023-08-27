@@ -1,13 +1,13 @@
 import Ingredient from "../models/ingredients.js";
+import { ctrlWrapper } from "../utils/index.js";
 
-import { HttpError } from "../utils/HttpError.js";
-import { ctrlWrapper } from "../utils/ctrlWrapper.js";
+const getIngredients = async (req, res) => {
+  const ingredients = await Ingredient.find().sort({ title: 1 });
 
-const getAll = async (req, res) => {
-  const data = "some Ingredient data";
-  res.json(data);
+  if (!ingredients) {
+    throw HttpError(404, "Sorry, there are no ingredients to display");
+  }
+  res.json(ingredients);
 };
 
-export default {
-  getAll: ctrlWrapper(getAll),
-};
+export default ctrlWrapper(getIngredients);
