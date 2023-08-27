@@ -4,7 +4,7 @@ import {
   deleteMyRecipe,
   getMyRecipes,
 } from "../../controllers/myrecipes/index.js";
-import schemas from "../../schemas/userSchema.js";
+import schemas from "../../schemas/cocktailSchema.js";
 import { validateBody, authenticate, upload } from "../../middlewares/index.js";
 
 const router = express.Router();

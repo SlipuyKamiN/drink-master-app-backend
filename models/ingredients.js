@@ -17,6 +17,10 @@ const ingredientSchema = new Schema({
     type: String,
     required: true,
   },
+  measurement: {
+    type: String,
+    required: true,
+  },
 });
 
 const Ingredient = model("ingredient", ingredientSchema);
