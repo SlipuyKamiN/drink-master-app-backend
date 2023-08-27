@@ -1,8 +1,10 @@
 import express from "express";
-import ctrl from "../../controllers/glasses.js";
+import {getAllGlasses} from "../../controllers/glass/index.js";
 
-const router = express.Router();
+const glassesRouter = express.Router();
 
-router.get("/", ctrl.getAll);
+// glassesRouter.use(authenticate);
 
-export default router;
+glassesRouter.get("/", getAllGlasses);
+
+export default glassesRouter;

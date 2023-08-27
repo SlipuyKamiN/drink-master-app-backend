@@ -1,17 +1,24 @@
 import express from "express";
-import ctrl from "../../controllers/users.js";
+import {
+  register,
+  login,
+  getCurrent,
+  logout,
+  updateUser,
+} from "../../controllers/users/index.js";
 import schemas from "../../schemas/userSchema.js";
-import { validateBody } from "../../middlewares/validateBody.js";
-import { isEmptyBody } from "../../middlewares/isEmptyBody.js";
-import { isValidId } from "../../middlewares/isValidId.js";
-import authenticate from "../../middlewares/authenticate.js";
-
-console.log(ctrl);
+import { validateBody, authenticate, upload } from "../../middlewares/index.js";
 
 const router = express.Router();
 
-router.use(authenticate);
+router.post("/signup", validateBody(schemas.userSignupSchema), register);
 
-router.get("/", ctrl.getAll);
+router.post("/signin", validateBody(schemas.userSigninSchema), login);
+
+router.get("/current", authenticate, getCurrent);
+
+router.post("/logout", authenticate, logout);
+
+router.patch("/user", authenticate, upload.single("avatar"), updateUser);
 
 export default router;
