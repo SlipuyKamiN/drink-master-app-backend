@@ -9,9 +9,11 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "consumes": ["application/json"],
+  "consumes": ["application/json", "multipart/form-data"],
   "produces": ["application/json"],
-  "servers": [{ "url": "http://localhost:3000" }],
+  "servers": [
+    { "url": "https://drink-master.onrender.com/api" }
+  ],
   "tags": [
     {
       "name": "Auth",
@@ -19,12 +21,11 @@
     }
   ],
   "paths": {
-    "/auth/register": {
+    "/auth/signup": {
       "post": {
         "tags": ["Auth"],
         "summary": "User registration",
         "parameters": [],
-        "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Registration's object",
           "required": true,
@@ -38,7 +39,7 @@
         },
         "responses": {
           "201": {
-            "description": "Successful operation",
+            "description": "User created",
             "content": {
               "application/json": {
                 "schema": {
@@ -57,11 +58,191 @@
           }
         }
       }
+    },
+    "/auth/signin": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User login",
+        "requestBody": {
+          "description": "Login object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User is logged in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "401": {
+            "description": "Email or password is wrong",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User logout",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "The token issued to the current user."
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "The user is logged out",
+            "content": {}
+          },
+          "401": {
+            "description": "Missing header with authorization token.",
+            "content": {}
+          },
+          "500": {
+            "description": "Server error",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/auth/current": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Info about current user",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "The token issued to the current user."
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Information found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing header with authorization token.",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/auth/user": {
+      "patch": {
+        "tags": ["Auth"],
+        "summary": "Update User info",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "The token issued to the current user."
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "User data",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User was successfully updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User update failed",
+            "content": {}
+          },
+          "401": {
+            "description": "Missing header with authorization token",
+            "content": {}
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
       "RegistrationRequest": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Alex"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "Qwerty123"
+          }
+        }
+      },
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Alex"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          }
+        },
+        "example": { "name": "Alex", "email": "user@gmail.com" }
+      },
+      "LoginRequest": {
         "type": "object",
         "required": ["email", "password"],
         "properties": {
@@ -73,31 +254,103 @@
           "password": {
             "type": "string",
             "description": "User's password",
-            "example": "qwerty123"
+            "example": "Qwerty123"
           }
         }
       },
-      "RegistrationResponse": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
-            "email": {
-              "type": "string",
-              "description": "User's email",
-              "format": "email"
-            },
-            "userId": {
-              "type": "number",
-              "description": "User's id",
-              "example": "32143232436545474"
-            }
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "User's id",
+            "example": "64ecb56e7c83b02f5b79709d"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Alex"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "avatarURL": {
+            "type": "string",
+            "description": "User's avatar link",
+            "example": "//www.gravatar.com/avatar/d9e6b34c905e346796a4d1eda209400e"
+          },
+          "token": {
+            "type": "string",
+            "description": "User's token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWNiNTZlN2M4M2IwMmY1Yjc5NzA5ZCIsImlhdCI6MTY5MzIzNTM0MSwiZXhwIjoxNjkzMzE4MTQxfQ.QarylEOCqImrtibxJRXtxOWIJDecBvUVfLy6mAvlrPQ"
           }
         },
-        "example": [
-          { "email": "1@gmail.com", "userId": "1" },
-          { "email": "2@gmail.com", "userId": "2" }
-        ]
+        "example": {
+          "_id": "64ecb56e7c83b02f5b79709d",
+          "name": "Alex",
+          "email": "user@gmail.com",
+          "avatarURL": "//www.gravatar.com/avatar/d9e6b34c905e346796a4d1eda209400e",
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWNiNTZlN2M4M2IwMmY1Yjc5NzA5ZCIsImlhdCI6MTY5MzIzNTM0MSwiZXhwIjoxNjkzMzE4MTQxfQ.QarylEOCqImrtibxJRXtxOWIJDecBvUVfLy6mAvlrPQ"
+        }
+      },
+      "CurrentResponse": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Alex"
+          },
+          "avatarURL": {
+            "type": "string",
+            "description": "User's avatar link",
+            "example": "//www.gravatar.com/avatar/d9e6b34c905e346796a4d1eda209400e"
+          }
+        },
+        "example": {
+          "email": "user@gmail.com",
+          "name": "Alex",
+          "avatarURL": "//www.gravatar.com/avatar/d9e6b34c905e346796a4d1eda209400e"
+        }
+      },
+      "UpdateUserRequest": {
+        "type": "object",
+        "required": ["name", "avatar"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Alex"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "User's avatar",
+            "format": "binary"
+          }
+        }
+      },
+      "UpdateUserResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Alex"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "User's avatar",
+            "example": "https://res.cloudinary.com/dbvxfxxjv/image/upload/v1693150358/avatars/kisspng-react-javascript-responsive-web-design-github-angu-github-5accac250cda95.4452823815233628530527.png.png"
+          }
+        },
+        "example": { "name": "Alex", "avatarURL": "https://res.cloudinary.com/dbvxfxxjv/image/upload/v1693150358/avatars/kisspng-react-javascript-responsive-web-design-github-angu-github-5accac250cda95.4452823815233628530527.png.png" }
       }
     },
     "securitySchemes": {
