@@ -6,8 +6,7 @@ const addMyRecipe = async (req, res) => {
   const { _id: owner } = req.user;
   const drinkThumb = req.file.path;
 
-  let { ingredients, instructions } = req.body;
-
+  let { ingredients } = req.body;
   const ingredientsArray = [];
 
   for (const ingredient of ingredients) {
