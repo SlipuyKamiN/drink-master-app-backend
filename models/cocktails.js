@@ -16,7 +16,7 @@ const cocktailSchema = new Schema(
     },
     glass: { type: String, required: [true, "Glass type required"] },
     instructions: {
-      type: String,
+      type: Schema.Types.Mixed,
       required: [true, "Instructions are required"],
     },
     instructionsES: String,
