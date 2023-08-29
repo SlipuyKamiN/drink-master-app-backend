@@ -2,13 +2,11 @@ import { HttpError, ctrlWrapper } from "../../utils/index.js";
 import Cocktail from "../../models/cocktails.js";
 import Ingredient from "../../models/ingredients.js";
 
-
 const addMyRecipe = async (req, res) => {
   const { _id: owner } = req.user;
   const drinkThumb = req.file.path;
 
   let { ingredients } = req.body;
-
   const ingredientsArray = [];
 
   for (const ingredient of ingredients) {
