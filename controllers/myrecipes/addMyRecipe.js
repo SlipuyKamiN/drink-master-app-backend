@@ -12,6 +12,10 @@ const addMyRecipe = async (req, res) => {
   ingredients = parseIfJSON(ingredients);
   instructions = parseIfJSON(instructions);
 
+  console.log("body:", req.body);
+  console.log("ingr:", ingredients);
+  console.log("instr:", instructions);
+
   const ingredientsArray = [];
 
   for (const ingredient of ingredients) {
