@@ -5,7 +5,12 @@ import {
   getMyRecipes,
 } from "../../controllers/myrecipes/index.js";
 import schemas from "../../schemas/cocktailSchema.js";
-import { validateBody, authenticate, upload, parseJson } from "../../middlewares/index.js";
+import {
+  validateBody,
+  authenticate,
+  upload,
+  parseJson,
+} from "../../middlewares/index.js";
 
 const router = express.Router();
 
@@ -13,8 +18,8 @@ router.post(
   "/",
   validateBody(schemas.cocktailSchema),
   authenticate,
-  parseJson,
   upload.single("recipe"),
+  parseJson,
   addMyRecipe
 );
 router.delete("/:id", authenticate, deleteMyRecipe);

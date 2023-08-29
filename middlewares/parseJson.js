@@ -1,12 +1,14 @@
-const parseJson = (req, res, next) => {
+const parseJson = async (req, res, next) => {
   let { ingredients, instructions } = req.body;
 
-  if (typeof ingredients === "string") {
-    ingredients = JSON.parse(ingredients);
-  }
+  try {
+    if (typeof ingredients === "string") {
+      req.body.ingredients = await JSON.parse(ingredients);
+    }
 
-  if (typeof instructions === "string") {
-    instructions = JSON.parse(instructions);
+    req.body.instructions = await JSON.parse(instructions);
+  } catch (error) {
+    req.body.instructions = instructions;
   }
 
   next();
