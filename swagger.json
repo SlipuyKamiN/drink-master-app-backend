@@ -18,6 +18,16 @@
     {
       "name": "Auth",
       "description": "Authorization endpoints"
+    },
+    {
+      "name": "Subscribe",
+      "description": "Subscription endpoints"
+    },
+    {
+      "name": "Recipes"
+    },
+    {
+      "name": "Glass"
     }
   ],
   "paths": {
@@ -201,6 +211,96 @@
           }
         }
       }
+    },
+    "/subscribe": {
+      "post": {
+        "tags": ["Subscribe"],
+        "summary": "User subscription",
+        "requestBody": {
+          "description": "Subscription object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubscribeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful subscription"
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "404": {
+            "description": "User not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/recipes/category-list": {
+      "get": {
+        "tags": ["Recipes"],
+        "summary": "Get recipes category-list",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "The token issued to the current user."
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "201": {
+            "description": "Category-list found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecipesCategoriesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing header with authorization token"
+          }
+        }
+      }
+    },
+    "/glass": {
+      "get": {
+        "tags": ["Glass"],
+        "summary": "Get glass list",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "The token issued to the current user."
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "201": {
+            "description": "Glass-list found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlassCategoriesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing header with authorization token"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -351,8 +451,33 @@
           }
         },
         "example": { "name": "Alex", "avatarURL": "https://res.cloudinary.com/dbvxfxxjv/image/upload/v1693150358/avatars/kisspng-react-javascript-responsive-web-design-github-angu-github-5accac250cda95.4452823815233628530527.png.png" }
+      },
+      "SubscribeRequest": {
+        "type": "object",
+        "required": ["email"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          }
+        }
+      },
+      "RecipesCategoriesResponse": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "example": ["Beer", "Cocktail"]
+      },
+      "GlassCategoriesResponse": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "example": ["Balloon Glass", "Beer Glass", "Beer mug"]
       }
-    },
+  },
     "securitySchemes": {
       "Bearer": {
         "type": "http",
