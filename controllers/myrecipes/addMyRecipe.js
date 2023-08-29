@@ -1,12 +1,16 @@
 import { HttpError, ctrlWrapper } from "../../utils/index.js";
 import Cocktail from "../../models/cocktails.js";
 import Ingredient from "../../models/ingredients.js";
+import parseIfJSON from "../../helpers/parseIfJson.js";
 
 const addMyRecipe = async (req, res) => {
   const { _id: owner } = req.user;
   const drinkThumb = req.file.path;
 
-  const { ingredients } = req.body;
+  let { ingredients, instructions } = req.body;
+
+  ingredients = parseIfJSON(ingredients);
+  instructions = parseIfJSON(instructions);
 
   const ingredientsArray = [];
 
