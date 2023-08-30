@@ -11,9 +11,7 @@
   },
   "consumes": ["application/json", "multipart/form-data"],
   "produces": ["application/json"],
-  "servers": [
-    { "url": "https://drink-master.onrender.com/api" }
-  ],
+  "servers": [{ "url": "https://drink-master.onrender.com/api" }],
   "tags": [
     {
       "name": "Auth",
@@ -28,6 +26,10 @@
     },
     {
       "name": "Glass"
+    },
+    {
+      "name": "MyRecipes",
+      "description": "MyRecipes endpoints"
     }
   ],
   "paths": {
@@ -216,6 +218,7 @@
       "post": {
         "tags": ["Subscribe"],
         "summary": "User subscription",
+        "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "Subscription object",
           "required": true,
@@ -298,6 +301,103 @@
           },
           "401": {
             "description": "Missing header with authorization token"
+          }
+        }
+      }
+    },
+    "/myrecipes": {
+      "post": {
+        "tags": ["MyRecipes"],
+        "summary": "Add user's recipe",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "The token issued to the current user."
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "User's recipe object",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/AddUserRecipeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Recipe is added",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddUserRecipeResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing header with authorization token"
+          },
+          "404": {
+            "description": "Wrong ingredient title"
+          }
+        }
+      },
+      "get": {
+        "tags": ["MyRecipes"],
+        "summary": "Get user's drink",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "The token issued to the current user"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "User's drinks were found"
+          },
+          "401": {
+            "description": "Missing header with authorization token"
+          }
+        }
+      }
+    },
+    "/myrecipes/{drinkId}": {
+      "delete": {
+        "tags": ["MyRecipes"],
+        "summary": "Delete user's drink",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "drinkId",
+            "required": true,
+            "description": "ID of drink"
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "The token issued to the current user"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Drink has been deleted"
+          },
+          "401": {
+            "description": "Missing header with authorization token"
+          },
+          "404": {
+            "description": "Drink with such id was not found"
           }
         }
       }
@@ -450,7 +550,10 @@
             "example": "https://res.cloudinary.com/dbvxfxxjv/image/upload/v1693150358/avatars/kisspng-react-javascript-responsive-web-design-github-angu-github-5accac250cda95.4452823815233628530527.png.png"
           }
         },
-        "example": { "name": "Alex", "avatarURL": "https://res.cloudinary.com/dbvxfxxjv/image/upload/v1693150358/avatars/kisspng-react-javascript-responsive-web-design-github-angu-github-5accac250cda95.4452823815233628530527.png.png" }
+        "example": {
+          "name": "Alex",
+          "avatarURL": "https://res.cloudinary.com/dbvxfxxjv/image/upload/v1693150358/avatars/kisspng-react-javascript-responsive-web-design-github-angu-github-5accac250cda95.4452823815233628530527.png.png"
+        }
       },
       "SubscribeRequest": {
         "type": "object",
@@ -476,8 +579,196 @@
           "type": "string"
         },
         "example": ["Balloon Glass", "Beer Glass", "Beer mug"]
+      },
+      "AddUserRecipeRequest": {
+        "type": "object",
+        "required": [
+          "drink",
+          "category",
+          "glass",
+          "instructions",
+          "ingredients",
+          "recipe"
+        ],
+        "properties": {
+          "drink": {
+            "type": "string",
+            "description": "Drink name"
+          },
+          "description": {
+            "type": "string",
+            "description": "Drink description"
+          },
+          "category": {
+            "type": "string",
+            "description": "Drink category"
+          },
+          "glass": {
+            "type": "string",
+            "description": "Type of glass for drink"
+          },
+          "instructions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Instructions for drink preparation"
+          },
+          "ingredients": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "description": "Drink ingredient's title"
+                },
+                "measure": {
+                  "type": "string",
+                  "description": "Drink ingredient's measure"
+                }
+              },
+              "description": "Drink ingredients"
+            }
+          },
+          "recipe": {
+            "type": "string",
+            "description": "Drink's photo",
+            "format": "binary"
+          }
+        },
+        "example": {
+          "drink": "Quentin",
+          "description": "some description",
+          "category": "Ordinary Drink",
+          "glass": "Cocktail glass",
+          "instructions": [
+            "In a shaker half-filled with ice cubes, combine the rum, Kahlua, and cream. Shake well.",
+            "Strain into a cocktail glass and garnish with the nutmeg."
+          ],
+          "ingredients": [
+            {
+              "title": "Light rum",
+              "measure": "2 oz"
+            },
+            {
+              "title": "Applejack",
+              "measure": "2 oz"
+            }
+          ],
+          "recipe": "file"
+        }
+      },
+      "AddUserRecipeResponse": {
+        "type": "object",
+        "properties": {
+          "drink": {
+            "type": "string",
+            "description": "Drink name"
+          },
+          "description": {
+            "type": "string",
+            "description": "Drink description"
+          },
+          "category": {
+            "type": "string",
+            "description": "Drink category"
+          },
+          "glass": {
+            "type": "string",
+            "description": "Type of glass for drink"
+          },
+          "instructions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Instructions for drink preparation"
+          },
+          "ingredients": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "description": "Drink ingredient's title"
+                },
+                "measure": {
+                  "type": "string",
+                  "description": "Drink ingredient's measure"
+                },
+                "ingredientThumb": {
+                  "type": "string",
+                  "description": "Drink ingredient's photo"
+                },
+                "thumbMedium": {
+                  "type": "string",
+                  "description": "Drink ingredient's medium photo"
+                },
+                "thumbSmall": {
+                  "type": "string",
+                  "description": "Drink ingredient's small photo"
+                }
+              },
+              "description": "Drink ingredients"
+            }
+          },
+          "drinkThumb": {
+            "type": "string",
+            "description": "Drink's photo"
+          },
+          "owner": {
+            "type": "string",
+            "description": "User's id"
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of users who have chosen the drink as 'favourite'"
+          },
+          "_id": {
+            "type": "string",
+            "description": "Drink's id"
+          },
+          "createdAt": {
+            "type": "string",
+            "description": "Date of creation"
+          },
+          "updatedAt": {
+            "type": "string",
+            "description": "Apdate date"
+          }
+        },
+        "example": {
+          "drink": "Quentin",
+          "description": "some description",
+          "category": "Ordinary Drink",
+          "glass": "Cocktail glass",
+          "instructions": [
+            "In a shaker half-filled with ice cubes, combine the rum, Kahlua, and cream. Shake well.",
+            "Strain into a cocktail glass and garnish with the nutmeg."
+          ],
+          "ingredients": [
+            {
+              "title": "Light rum",
+              "measure": "2 oz",
+              "ingredientThumb": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Light%20rum.png",
+              "thumbMedium": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Light%20rum-Medium.png",
+              "thumbSmall": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Light%20rum-Small.png"
+            }
+          ],
+          "drinkThumb": "https://res.cloudinary.com/dbvxfxxjv/image/upload/v1693040839/recipes/334.png.png",
+          "owner": "64edc0f832fca2355fc5b795",
+          "users": [],
+          "_id": "64ef15d88feb311711387228",
+          "createdAt": "2023-08-30T10:11:36.357Z",
+          "updatedAt": "2023-08-30T10:11:36.357Z"
+        }
       }
-  },
+    },
     "securitySchemes": {
       "Bearer": {
         "type": "http",
