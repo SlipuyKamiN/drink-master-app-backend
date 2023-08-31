@@ -276,6 +276,36 @@
         }
       }
     },
+    "/recipes/main-page": {
+      "get": {
+        "tags": ["Recipes"],
+        "summary": "Randomly get 4 categories (3 drinks each) for main page",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "The token issued to the current user"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "201": {
+            "description": "Success! Gets 4 categories (3 drinks each) for main page",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MainPageResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing header with authorization token"
+          }
+        }
+      }
+    },
     "/recipes/:id": {
       "get": {
         "tags": ["Recipes"],
@@ -313,6 +343,9 @@
           },
           "401": {
             "description": "Missing header with authorization token"
+          },
+          "404": {
+            "description": "Not found"
           }
         }
       }
@@ -368,6 +401,9 @@
           },
           "401": {
             "description": "Missing header with authorization token"
+          },
+          "404": {
+            "description": "Not found"
           }
         }
       }
@@ -707,6 +743,102 @@
         },
         "example": ["Balloon Glass", "Beer Glass", "Beer mug"]
       },
+      "MainPageResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string"
+            },
+            "drinks": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string"
+                  },
+                  "drink": {
+                    "type": "string"
+                  },
+                  "drinkAlternate": {
+                    "type": "string"
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "video": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "category": {
+                    "type": "string"
+                  },
+                  "IBA": {
+                    "type": "string"
+                  },
+                  "alcoholic": {
+                    "type": "string"
+                  },
+                  "glass": {
+                    "type": "string"
+                  },
+                  "instructions": {
+                    "type": "string"
+                  },
+                  "drinkThumb": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "ingredients": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "measure": {
+                          "type": "string"
+                        },
+                        "ingredientThumb": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "thumbMedium": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "thumbSmall": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      }
+                    }
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "users": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "RecipeByIdResponse": {
         "type": "object",
         "properties": {
@@ -726,7 +858,8 @@
             }
           },
           "video": {
-            "type": "string"
+            "type": "string",
+            "format": "uri"
           },
           "category": {
             "type": "string"
@@ -762,6 +895,14 @@
                   "type": "string"
                 },
                 "ingredientThumb": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "thumbMedium": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "thumbSmall": {
                   "type": "string",
                   "format": "uri"
                 }
