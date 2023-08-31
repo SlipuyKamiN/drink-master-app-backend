@@ -402,6 +402,36 @@
           }
         }
       }
+    },
+    "/ingredients/list": {
+      "get": {
+        "tags": ["Ingredients"],
+        "summary": "Get all ingredients list",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "The token issued to the current user."
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Success! Get all ingredients list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IngredientsListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing header with authorization token"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -768,13 +798,68 @@
           "createdAt": "2023-08-30T10:11:36.357Z",
           "updatedAt": "2023-08-30T10:11:36.357Z"
         }
-      }
-    },
-    "securitySchemes": {
-      "Bearer": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
+      },
+      "IngredientsListResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "Ingredient ID"
+            },
+            "title": {
+              "type": "string",
+              "description": "Name of the ingredient"
+            },
+            "ingredientThumb": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to ingredient image"
+            },
+            "thumb-medium": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to ingredient medium image"
+            },
+            "thumb-small": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to ingredient small image"
+            }
+          }
+        },
+        "required": [
+          "_id",
+          "title",
+          "ingredientThumb",
+          "thumb-medium",
+          "thumb-small"
+        ],
+        "example": [
+          {
+            "_id": "64e5b44f2385b629ee3976f9",
+            "title": "7-Up",
+            "ingredientThumb": "https://res.cloudinary.com/dec1shvoo/image/upload/v1689169606/cocktails-v1/ingredient/7-Up.png",
+            "thumb-medium": "https://res.cloudinary.com/dec1shvoo/image/upload/v1689169606/cocktails-v1/ingredient/7-Up-Medium.png",
+            "thumb-small": "https://res.cloudinary.com/dec1shvoo/image/upload/v1689169606/cocktails-v1/ingredient/7-Up-Small.png"
+          },
+          {
+            "_id": "64e5b44f2385b629ee3976f3",
+            "title": "Ale",
+            "ingredientThumb": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Ale.png",
+            "thumb-medium": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Ale-Medium.png",
+            "thumb-small": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Ale-Small.png"
+          }
+        ]
+      },
+
+      "securitySchemes": {
+        "Bearer": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
       }
     }
   }
