@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "version": "2.0.2",
-    "title": "Swagger",
+    "title": "Drink Master API Docs - Swagger",
     "description": "Showing off swagger-ui-express",
     "license": {
       "name": "MIT",
@@ -30,7 +30,8 @@
     {
       "name": "MyRecipes",
       "description": "MyRecipes endpoints"
-    }
+    },
+    { "name": "Ingredients", "description": "Ingredients endpoints" }
   ],
   "paths": {
     "/auth/signup": {
