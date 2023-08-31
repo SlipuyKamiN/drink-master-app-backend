@@ -408,6 +408,39 @@
         }
       }
     },
+    "/recipes/popular-recipes": {
+      "get": {
+        "tags": ["Recipes"],
+        "summary": "Get top 4 popular recipes",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "The token issued to the current user"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "201": {
+            "description": "Success! Gets top 4 popular recipes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PopularRecipesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing header with authorization token"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
     "/glass": {
       "get": {
         "tags": ["Glass"],
@@ -1129,6 +1162,111 @@
               "users": ["64eb07ecb959a78720cd7f57"]
             }
           ]
+        }
+      },
+      "PopularRecipesResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string"
+            },
+            "drink": {
+              "type": "string"
+            },
+            "drinkAlternate": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "video": {
+              "type": "string"
+            },
+            "category": {
+              "type": "string"
+            },
+            "IBA": {
+              "type": "string"
+            },
+            "alcoholic": {
+              "type": "string"
+            },
+            "glass": {
+              "type": "string"
+            },
+            "instructions": {
+              "type": "string"
+            },
+            "instructionsES": {
+              "type": "string"
+            },
+            "instructionsDE": {
+              "type": "string"
+            },
+            "instructionsFR": {
+              "type": "string"
+            },
+            "instructionsIT": {
+              "type": "string"
+            },
+            "instructionsRU": {
+              "type": "string"
+            },
+            "instructionsPL": {
+              "type": "string"
+            },
+            "instructionsUK": {
+              "type": "string"
+            },
+            "drinkThumb": {
+              "type": "string",
+              "format": "uri"
+            },
+            "ingredients": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "measure": {
+                    "type": "string"
+                  },
+                  "ingredientThumb": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "thumbMedium": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "thumbSmall": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              }
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "users": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
         }
       },
       "AddUserRecipeRequest": {
