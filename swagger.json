@@ -306,7 +306,7 @@
         }
       }
     },
-    "/recipes/:id": {
+    "/recipes/{id}": {
       "get": {
         "tags": ["Recipes"],
         "summary": "Get recipe by id",
@@ -441,7 +441,7 @@
         }
       }
     },
-    "/recipes/favorites/:id": {
+    "/recipes/favorites/{id}": {
       "patch": {
         "tags": ["Recipes"],
         "summary": "Add/delete recipe from user favorites",
@@ -780,7 +780,7 @@
       },
       "CurrentResponse": {
         "type": "object",
-              "properties": {
+        "properties": {
           "_id": {
             "type": "string",
             "description": "User's id",
@@ -1390,77 +1390,62 @@
               "type": "object",
               "properties": {
                 "_id": {
-                  "type": "string",
-                  "description": "The unique identifier for the favorite drink."
+                  "type": "string"
                 },
                 "drink": {
-                  "type": "string",
-                  "description": "The name of the drink."
+                  "type": "string"
                 },
                 "drinkAlternate": {
-                  "type": "string",
-                  "description": "An alternate name for the drink (nullable)."
+                  "type": "string"
                 },
                 "tags": {
-                  "type": "string",
-                  "description": "Tags associated with the drink (nullable)."
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
                 },
                 "video": {
-                  "type": "string",
-                  "description": "Video link for the drink (nullable)."
+                  "type": "string"
                 },
                 "category": {
-                  "type": "string",
-                  "description": "The category of the drink."
+                  "type": "string"
                 },
                 "IBA": {
-                  "type": "string",
-                  "description": "International Bartenders Association (IBA) status (nullable)."
+                  "type": "string"
                 },
                 "alcoholic": {
-                  "type": "string",
-                  "description": "Indicates if the drink is alcoholic or non-alcoholic."
+                  "type": "string"
                 },
                 "glass": {
-                  "type": "string",
-                  "description": "The type of glass in which the drink is served."
+                  "type": "string"
                 },
                 "instructions": {
-                  "type": "string",
-                  "description": "Instructions for making the drink."
+                  "type": "string"
                 },
                 "instructionsES": {
-                  "type": "string",
-                  "description": "Instructions for making the drink in Spanish (nullable)."
+                  "type": "string"
                 },
                 "instructionsDE": {
-                  "type": "string",
-                  "description": "Instructions for making the drink in German (nullable)."
+                  "type": "string"
                 },
                 "instructionsFR": {
-                  "type": "string",
-                  "description": "Instructions for making the drink in French (nullable)."
+                  "type": "string"
                 },
                 "instructionsIT": {
-                  "type": "string",
-                  "description": "Instructions for making the drink in Italian (nullable)."
+                  "type": "string"
                 },
                 "instructionsRU": {
-                  "type": "string",
-                  "description": "Instructions for making the drink in Russian (nullable)."
+                  "type": "string"
                 },
                 "instructionsPL": {
-                  "type": "string",
-                  "description": "Instructions for making the drink in Polish (nullable)."
+                  "type": "string"
                 },
                 "instructionsUK": {
-                  "type": "string",
-                  "description": "Instructions for making the drink in Ukrainian (nullable)."
+                  "type": "string"
                 },
                 "drinkThumb": {
                   "type": "string",
-                  "format": "uri",
-                  "description": "URL of the drink thumbnail image."
+                  "format": "uri"
                 },
                 "ingredients": {
                   "type": "array",
@@ -1468,45 +1453,37 @@
                     "type": "object",
                     "properties": {
                       "_id": {
-                        "type": "string",
-                        "description": "The unique identifier for the ingredient."
+                        "type": "string"
                       },
                       "title": {
-                        "type": "string",
-                        "description": "The name of the ingredient."
+                        "type": "string"
                       },
                       "measure": {
-                        "type": "string",
-                        "description": "The measurement of the ingredient."
+                        "type": "string"
                       },
                       "ingredientThumb": {
                         "type": "string",
-                        "format": "uri",
-                        "description": "URL of the ingredient thumbnail image."
+                        "format": "uri"
                       },
                       "thumbMedium": {
                         "type": "string",
-                        "format": "uri",
-                        "description": "URL of the medium-sized ingredient thumbnail image."
+                        "format": "uri"
                       },
                       "thumbSmall": {
                         "type": "string",
-                        "format": "uri",
-                        "description": "URL of the small-sized ingredient thumbnail image."
+                        "format": "uri"
                       }
                     }
                   }
                 },
                 "updatedAt": {
                   "type": "string",
-                  "format": "date-time",
-                  "description": "The date and time when the favorite drink was last updated."
+                  "format": "date-time"
                 },
                 "users": {
                   "type": "array",
                   "items": {
-                    "type": "string",
-                    "description": "Unique identifiers of users who favorited the drink."
+                    "type": "string"
                   }
                 }
               }
@@ -1801,7 +1778,6 @@
           }
         ]
       },
-
       "securitySchemes": {
         "Bearer": {
           "type": "http",
