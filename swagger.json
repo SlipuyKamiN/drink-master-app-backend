@@ -441,6 +441,93 @@
         }
       }
     },
+    "/recipes/favorites/:id": {
+      "patch": {
+        "tags": ["Recipes"],
+        "summary": "Add/delete recipe from user favorites",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "The token issued to the current user."
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "objectId",
+              "description": "Recipe ID"
+            },
+            "description": "Recipe ID"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Success! Added/deleted drink to favorites",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateFavoritesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing header with authorization token"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/recipes/favorites": {
+      "get": {
+        "tags": ["Recipes"],
+        "summary": "Get recipes from user favorites",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "The token issued to the current user."
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Use page query for pagination. Default page=1"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Use limit query for pagination. Default limit=8"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Success! Get drinks from user favorites",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetFavoritesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing header with authorization token"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
     "/glass": {
       "get": {
         "tags": ["Glass"],
@@ -1267,6 +1354,197 @@
               }
             }
           }
+        }
+      },
+      "UpdateFavoritesResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Added Iced Coffee Fillip to favorites"
+          }
+        }
+      },
+      "GetFavoritesResponse": {
+        "type": "object",
+        "properties": {
+          "totalHits": {
+            "type": "integer",
+            "description": "The total number of favorites."
+          },
+          "favorites": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "description": "The unique identifier for the favorite drink."
+                },
+                "drink": {
+                  "type": "string",
+                  "description": "The name of the drink."
+                },
+                "drinkAlternate": {
+                  "type": "string",
+                  "description": "An alternate name for the drink (nullable)."
+                },
+                "tags": {
+                  "type": "string",
+                  "description": "Tags associated with the drink (nullable)."
+                },
+                "video": {
+                  "type": "string",
+                  "description": "Video link for the drink (nullable)."
+                },
+                "category": {
+                  "type": "string",
+                  "description": "The category of the drink."
+                },
+                "IBA": {
+                  "type": "string",
+                  "description": "International Bartenders Association (IBA) status (nullable)."
+                },
+                "alcoholic": {
+                  "type": "string",
+                  "description": "Indicates if the drink is alcoholic or non-alcoholic."
+                },
+                "glass": {
+                  "type": "string",
+                  "description": "The type of glass in which the drink is served."
+                },
+                "instructions": {
+                  "type": "string",
+                  "description": "Instructions for making the drink."
+                },
+                "instructionsES": {
+                  "type": "string",
+                  "description": "Instructions for making the drink in Spanish (nullable)."
+                },
+                "instructionsDE": {
+                  "type": "string",
+                  "description": "Instructions for making the drink in German (nullable)."
+                },
+                "instructionsFR": {
+                  "type": "string",
+                  "description": "Instructions for making the drink in French (nullable)."
+                },
+                "instructionsIT": {
+                  "type": "string",
+                  "description": "Instructions for making the drink in Italian (nullable)."
+                },
+                "instructionsRU": {
+                  "type": "string",
+                  "description": "Instructions for making the drink in Russian (nullable)."
+                },
+                "instructionsPL": {
+                  "type": "string",
+                  "description": "Instructions for making the drink in Polish (nullable)."
+                },
+                "instructionsUK": {
+                  "type": "string",
+                  "description": "Instructions for making the drink in Ukrainian (nullable)."
+                },
+                "drinkThumb": {
+                  "type": "string",
+                  "format": "uri",
+                  "description": "URL of the drink thumbnail image."
+                },
+                "ingredients": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string",
+                        "description": "The unique identifier for the ingredient."
+                      },
+                      "title": {
+                        "type": "string",
+                        "description": "The name of the ingredient."
+                      },
+                      "measure": {
+                        "type": "string",
+                        "description": "The measurement of the ingredient."
+                      },
+                      "ingredientThumb": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "URL of the ingredient thumbnail image."
+                      },
+                      "thumbMedium": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "URL of the medium-sized ingredient thumbnail image."
+                      },
+                      "thumbSmall": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "URL of the small-sized ingredient thumbnail image."
+                      }
+                    }
+                  }
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "The date and time when the favorite drink was last updated."
+                },
+                "users": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "description": "Unique identifiers of users who favorited the drink."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "totalHits": 1,
+          "favorites": [
+            {
+              "_id": "64eb2c2d1a49a0f967771d47",
+              "drink": "Iced Coffee Fillip",
+              "drinkAlternate": null,
+              "tags": null,
+              "video": null,
+              "category": "Coffee / Tea",
+              "IBA": null,
+              "alcoholic": "Alcoholic",
+              "glass": "Coffee mug",
+              "instructions": "Mix together in a coffee mug and chill before serving.",
+              "instructionsES": "Mezclar en una taza de café y enfriar antes de servir.",
+              "instructionsDE": "In einer Kaffeetasse vermischen und vor dem Servieren kalt stellen.",
+              "instructionsFR": "Mélanger dans une tasse à café et réfrigérer avant de servir.",
+              "instructionsIT": "Mescolare insieme in una tazza da caffè e raffreddare prima di servire.",
+              "instructionsRU": "Смешайте в кофейной кружке и охладите перед подачей на стол.",
+              "instructionsPL": "Wymieszać w kubku do kawy i schłodzić przed podaniem.",
+              "instructionsUK": "Змішайте в чашці для кави та охолодіть перед подачею.",
+              "drinkThumb": "https://res.cloudinary.com/dec1shvoo/image/upload/v1689167155/cocktails-v1/drinks/Iced_Coffee_Fillip.jpg",
+              "ingredients": [
+                {
+                  "_id": "64f2035929e4de7a9d46a35b",
+                  "title": "Kahlua",
+                  "measure": "2 tsp ",
+                  "ingredientThumb": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Kahlua.png",
+                  "thumbMedium": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Kahlua-Medium.png",
+                  "thumbSmall": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Kahlua-Small.png"
+                },
+                {
+                  "_id": "64f2035929e4de7a9d46a35c",
+                  "title": "Coffee",
+                  "measure": "Strong cold ",
+                  "ingredientThumb": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Coffee.png",
+                  "thumbMedium": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Coffee-Medium.png",
+                  "thumbSmall": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Coffee-Small.png"
+                }
+              ],
+              "updatedAt": "2023-09-01T15:05:23.529Z",
+              "users": ["64eb07ecb959a78720cd7f57", "64eb76b500b4a074b1de9853"]
+            }
+          ]
         }
       },
       "AddUserRecipeRequest": {
