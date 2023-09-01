@@ -780,27 +780,39 @@
       },
       "CurrentResponse": {
         "type": "object",
-        "properties": {
-          "email": {
+              "properties": {
+          "_id": {
             "type": "string",
-            "description": "User's email",
-            "format": "email"
+            "description": "User's id",
+            "example": "64ecb56e7c83b02f5b79709d"
           },
           "name": {
             "type": "string",
             "description": "User's name",
             "example": "Alex"
           },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
           "avatarURL": {
             "type": "string",
             "description": "User's avatar link",
             "example": "//www.gravatar.com/avatar/d9e6b34c905e346796a4d1eda209400e"
+          },
+          "token": {
+            "type": "string",
+            "description": "User's token",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWNiNTZlN2M4M2IwMmY1Yjc5NzA5ZCIsImlhdCI6MTY5MzIzNTM0MSwiZXhwIjoxNjkzMzE4MTQxfQ.QarylEOCqImrtibxJRXtxOWIJDecBvUVfLy6mAvlrPQ"
           }
         },
         "example": {
-          "email": "user@gmail.com",
+          "_id": "64ecb56e7c83b02f5b79709d",
           "name": "Alex",
-          "avatarURL": "//www.gravatar.com/avatar/d9e6b34c905e346796a4d1eda209400e"
+          "email": "user@gmail.com",
+          "avatarURL": "//www.gravatar.com/avatar/d9e6b34c905e346796a4d1eda209400e",
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWNiNTZlN2M4M2IwMmY1Yjc5NzA5ZCIsImlhdCI6MTY5MzIzNTM0MSwiZXhwIjoxNjkzMzE4MTQxfQ.QarylEOCqImrtibxJRXtxOWIJDecBvUVfLy6mAvlrPQ"
         }
       },
       "UpdateUserRequest": {
