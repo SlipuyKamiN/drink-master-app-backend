@@ -23,10 +23,15 @@ const storage = new CloudinaryStorage({
     return {
       folder: folder,
       allowed_formats: ["jpg", "png"], // Adjust the allowed formats as needed
-      public_id: file.originalname, // Use original filename as the public ID
+      // public_id: file.originalname, // Use original filename as the public ID
       transformation: [
-        { width: 350, height: 350 },
-        { width: 700, height: 700 },
+        // { width: 350, height: 350 },
+        // { width: 700, height: 700 },
+    
+          {aspect_ratio: "1.0", width: 700, crop: "fill"},
+          {quality: "auto"},
+          {fetch_format: "auto"}
+    
       ],
     };
   },
