@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "version": "2.0.2",
-    "title": "Swagger",
+    "title": "Drink Master API Docs - Swagger",
     "description": "Showing off swagger-ui-express",
     "license": {
       "name": "MIT",
@@ -30,7 +30,8 @@
     {
       "name": "MyRecipes",
       "description": "MyRecipes endpoints"
-    }
+    },
+    { "name": "Ingredients", "description": "Ingredients endpoints" }
   ],
   "paths": {
     "/auth/signup": {
@@ -275,6 +276,171 @@
         }
       }
     },
+    "/recipes/main-page": {
+      "get": {
+        "tags": ["Recipes"],
+        "summary": "Randomly get 4 categories (3 drinks each) for main page",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "The token issued to the current user"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "201": {
+            "description": "Success! Gets 4 categories (3 drinks each) for main page",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MainPageResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing header with authorization token"
+          }
+        }
+      }
+    },
+    "/recipes/:id": {
+      "get": {
+        "tags": ["Recipes"],
+        "summary": "Get recipe by id",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "The token issued to the current user"
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "objectId",
+              "description": "Recipe ID"
+            },
+            "description": "Recipe ID"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Success! Get recipe object by id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecipeByIdResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing header with authorization token"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/recipes/": {
+      "get": {
+        "tags": ["Recipes"],
+        "summary": "Get recipes by query",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "The token issued to the current user"
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "description": "Search keyword for recipe (drink)"
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "description": "Filter by category"
+          },
+          {
+            "in": "query",
+            "name": "ingredient",
+            "description": "Filter by ingredient"
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "description": "Use page query for pagination. Default page=1"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "Use limit query for pagination. Default limit=8"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Success! Get recipe object by query",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecipeSearchResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing header with authorization token"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/recipes/popular-recipes": {
+      "get": {
+        "tags": ["Recipes"],
+        "summary": "Get top 4 popular recipes",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "The token issued to the current user"
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "201": {
+            "description": "Success! Gets top 4 popular recipes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PopularRecipesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing header with authorization token"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
     "/glass": {
       "get": {
         "tags": ["Glass"],
@@ -398,6 +564,36 @@
           },
           "404": {
             "description": "Drink with such id was not found"
+          }
+        }
+      }
+    },
+    "/ingredients/list": {
+      "get": {
+        "tags": ["Ingredients"],
+        "summary": "Get all ingredients list",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "description": "The token issued to the current user."
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Success! Get all ingredients list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IngredientsListResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing header with authorization token"
           }
         }
       }
@@ -579,6 +775,499 @@
           "type": "string"
         },
         "example": ["Balloon Glass", "Beer Glass", "Beer mug"]
+      },
+      "MainPageResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string"
+            },
+            "drinks": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string"
+                  },
+                  "drink": {
+                    "type": "string"
+                  },
+                  "drinkAlternate": {
+                    "type": "string"
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "video": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "category": {
+                    "type": "string"
+                  },
+                  "IBA": {
+                    "type": "string"
+                  },
+                  "alcoholic": {
+                    "type": "string"
+                  },
+                  "glass": {
+                    "type": "string"
+                  },
+                  "instructions": {
+                    "type": "string"
+                  },
+                  "drinkThumb": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "ingredients": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "_id": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "measure": {
+                          "type": "string"
+                        },
+                        "ingredientThumb": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "thumbMedium": {
+                          "type": "string",
+                          "format": "uri"
+                        },
+                        "thumbSmall": {
+                          "type": "string",
+                          "format": "uri"
+                        }
+                      }
+                    }
+                  },
+                  "updatedAt": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "users": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "RecipeByIdResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "drink": {
+            "type": "string"
+          },
+          "drinkAlternate": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "video": {
+            "type": "string",
+            "format": "uri"
+          },
+          "category": {
+            "type": "string"
+          },
+          "IBA": {
+            "type": "string"
+          },
+          "alcoholic": {
+            "type": "string"
+          },
+          "glass": {
+            "type": "string"
+          },
+          "instructions": {
+            "type": "string"
+          },
+          "drinkThumb": {
+            "type": "string",
+            "format": "uri"
+          },
+          "ingredients": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "measure": {
+                  "type": "string"
+                },
+                "ingredientThumb": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "thumbMedium": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "thumbSmall": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "example": {
+          "_id": "64eb2c2d1a49a0f967771d45",
+          "drink": "Quentin",
+          "drinkAlternate": null,
+          "tags": null,
+          "video": null,
+          "category": "Ordinary Drink",
+          "IBA": null,
+          "alcoholic": "Alcoholic",
+          "glass": "Cocktail glass",
+          "instructions": "In a shaker half-filled with ice cubes, combine the rum, Kahlua, and cream. Shake well. Strain into a cocktail glass and garnish with the nutmeg.",
+          "drinkThumb": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689167161/cocktails-v1/drinks/Quentin.jpg",
+          "ingredients": [
+            {
+              "_id": "64f1069c98874a9492a2532d",
+              "title": "Dark rum",
+              "measure": "1 1/2 oz ",
+              "ingredientThumb": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Dark%20rum.png"
+            },
+            {
+              "_id": "64f1069c98874a9492a2532e",
+              "title": "Kahlua",
+              "measure": "1/2 oz ",
+              "ingredientThumb": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Kahlua.png"
+            },
+            {
+              "_id": "64f1069c98874a9492a2532f",
+              "title": "Light cream",
+              "measure": "1 oz "
+            },
+            {
+              "_id": "64f1069c98874a9492a25330",
+              "title": "Nutmeg",
+              "measure": "1/8 tsp grated "
+            }
+          ],
+          "updatedAt": "2023-08-27T13:56:46.350Z",
+          "users": ["64eb07ecb959a78720cd7f57"]
+        }
+      },
+      "RecipeSearchResponse": {
+        "type": "object",
+        "properties": {
+          "totalHits": {
+            "type": "integer"
+          },
+          "drinks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string"
+                },
+                "drink": {
+                  "type": "string"
+                },
+                "drinkAlternate": {
+                  "type": "string"
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "video": {
+                  "type": "string"
+                },
+                "category": {
+                  "type": "string"
+                },
+                "IBA": {
+                  "type": "string"
+                },
+                "alcoholic": {
+                  "type": "string"
+                },
+                "glass": {
+                  "type": "string"
+                },
+                "instructions": {
+                  "type": "string"
+                },
+                "instructionsES": {
+                  "type": "string"
+                },
+                "instructionsDE": {
+                  "type": "string"
+                },
+                "instructionsFR": {
+                  "type": "string"
+                },
+                "instructionsIT": {
+                  "type": "string"
+                },
+                "instructionsRU": {
+                  "type": "string"
+                },
+                "instructionsPL": {
+                  "type": "string"
+                },
+                "instructionsUK": {
+                  "type": "string"
+                },
+                "drinkThumb": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "ingredients": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "measure": {
+                        "type": "string"
+                      },
+                      "ingredientThumb": {
+                        "type": "string",
+                        "format": "uri"
+                      },
+                      "thumbMedium": {
+                        "type": "string",
+                        "format": "uri"
+                      },
+                      "thumbSmall": {
+                        "type": "string",
+                        "format": "uri"
+                      }
+                    }
+                  }
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "users": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "totalHits": 1,
+          "drinks": [
+            {
+              "_id": "64eb2c2d1a49a0f967771d46",
+              "drink": "Irish Coffee",
+              "drinkAlternate": null,
+              "tags": ["IBA,ContemporaryClassic"],
+              "video": null,
+              "category": "Coffee / Tea",
+              "IBA": "Contemporary Classics",
+              "alcoholic": "Alcoholic",
+              "glass": "Irish coffee cup",
+              "instructions": "Heat the coffee, whiskey and sugar; do not boil. Pour into glass and top with cream; serve hot.",
+              "instructionsES": "Calienta el café, el whisky y el azúcar; no hierva. Vierta en un vaso y cubra con crema; servir caliente.",
+              "instructionsDE": "Kaffee, Whiskey und Zucker erhitzen; nicht kochen lassen. In ein Glas geben und mit Sahne übergießen; heiß servieren.",
+              "instructionsFR": "Faire chauffer le café, le whisky et le sucre ; ne pas faire bouillir. Verser dans un verre et garnir de crème; Servir chaud.",
+              "instructionsIT": "Riscaldare il caffè, il whisky e lo zucchero; non bollire. Versare nel bicchiere e ricoprire con la panna; servito caldo.",
+              "instructionsRU": "Нагрейте кофе, виски и сахар; не кипятить. Перелейте в стакан и украсьте сливками; подавать горячим.",
+              "instructionsPL": "Podgrzej kawę, whisky i cukier; nie gotuj. Wlać do szklanki i posypać śmietaną; podawać na gorąco.",
+              "instructionsUK": "Розігріти каву, віскі і цукор; не кип'ятити. Перелити в келих і зверху полити кремом; подавати гарячим.",
+              "drinkThumb": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689167155/cocktails-v1/drinks/Irish_Coffee.jpg",
+              "ingredients": [
+                {
+                  "_id": "64f10e2bd08e71c4c8b31056",
+                  "title": "Irish whiskey",
+                  "measure": "1 1/2 oz ",
+                  "ingredientThumb": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Irish%20whiskey.png",
+                  "thumbMedium": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Irish%20whiskey-Medium.png",
+                  "thumbSmall": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Irish%20whiskey-Small.png"
+                },
+                {
+                  "_id": "64f10e2bd08e71c4c8b31057",
+                  "title": "Coffee",
+                  "measure": "8 oz ",
+                  "ingredientThumb": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Coffee.png",
+                  "thumbMedium": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Coffee-Medium.png",
+                  "thumbSmall": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Coffee-Small.png"
+                },
+                {
+                  "_id": "64f10e2bd08e71c4c8b31058",
+                  "title": "Sugar",
+                  "measure": "1 tsp ",
+                  "ingredientThumb": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169611/cocktails-v1/ingredient/Sugar.png",
+                  "thumbMedium": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169611/cocktails-v1/ingredient/Sugar-Medium.png",
+                  "thumbSmall": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169611/cocktails-v1/ingredient/Sugar-Small.png"
+                },
+                {
+                  "_id": "64f10e2bd08e71c4c8b31059",
+                  "title": "Whipped cream",
+                  "measure": "1 tblsp "
+                }
+              ],
+              "updatedAt": "2023-08-27T13:56:46.350Z",
+              "users": ["64eb07ecb959a78720cd7f57"]
+            }
+          ]
+        }
+      },
+      "PopularRecipesResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string"
+            },
+            "drink": {
+              "type": "string"
+            },
+            "drinkAlternate": {
+              "type": "string"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "video": {
+              "type": "string"
+            },
+            "category": {
+              "type": "string"
+            },
+            "IBA": {
+              "type": "string"
+            },
+            "alcoholic": {
+              "type": "string"
+            },
+            "glass": {
+              "type": "string"
+            },
+            "instructions": {
+              "type": "string"
+            },
+            "instructionsES": {
+              "type": "string"
+            },
+            "instructionsDE": {
+              "type": "string"
+            },
+            "instructionsFR": {
+              "type": "string"
+            },
+            "instructionsIT": {
+              "type": "string"
+            },
+            "instructionsRU": {
+              "type": "string"
+            },
+            "instructionsPL": {
+              "type": "string"
+            },
+            "instructionsUK": {
+              "type": "string"
+            },
+            "drinkThumb": {
+              "type": "string",
+              "format": "uri"
+            },
+            "ingredients": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "measure": {
+                    "type": "string"
+                  },
+                  "ingredientThumb": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "thumbMedium": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "thumbSmall": {
+                    "type": "string",
+                    "format": "uri"
+                  }
+                }
+              }
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "users": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
       },
       "AddUserRecipeRequest": {
         "type": "object",
@@ -767,13 +1456,68 @@
           "createdAt": "2023-08-30T10:11:36.357Z",
           "updatedAt": "2023-08-30T10:11:36.357Z"
         }
-      }
-    },
-    "securitySchemes": {
-      "Bearer": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
+      },
+      "IngredientsListResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "Ingredient ID"
+            },
+            "title": {
+              "type": "string",
+              "description": "Name of the ingredient"
+            },
+            "ingredientThumb": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to ingredient image"
+            },
+            "thumb-medium": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to ingredient medium image"
+            },
+            "thumb-small": {
+              "type": "string",
+              "format": "uri",
+              "description": "URL to ingredient small image"
+            }
+          }
+        },
+        "required": [
+          "_id",
+          "title",
+          "ingredientThumb",
+          "thumb-medium",
+          "thumb-small"
+        ],
+        "example": [
+          {
+            "_id": "64e5b44f2385b629ee3976f9",
+            "title": "7-Up",
+            "ingredientThumb": "https://res.cloudinary.com/dec1shvoo/image/upload/v1689169606/cocktails-v1/ingredient/7-Up.png",
+            "thumb-medium": "https://res.cloudinary.com/dec1shvoo/image/upload/v1689169606/cocktails-v1/ingredient/7-Up-Medium.png",
+            "thumb-small": "https://res.cloudinary.com/dec1shvoo/image/upload/v1689169606/cocktails-v1/ingredient/7-Up-Small.png"
+          },
+          {
+            "_id": "64e5b44f2385b629ee3976f3",
+            "title": "Ale",
+            "ingredientThumb": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Ale.png",
+            "thumb-medium": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Ale-Medium.png",
+            "thumb-small": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Ale-Small.png"
+          }
+        ]
+      },
+
+      "securitySchemes": {
+        "Bearer": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
       }
     }
   }
