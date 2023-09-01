@@ -11,7 +11,10 @@
   },
   "consumes": ["application/json", "multipart/form-data"],
   "produces": ["application/json"],
-  "servers": [{ "url": "https://drink-master.onrender.com/api" }],
+  "servers": [
+    { "url": "https://drink-master.onrender.com/api" },
+    { "url": "https://localhost:8999/api" }
+  ],
   "tags": [
     {
       "name": "Auth",
