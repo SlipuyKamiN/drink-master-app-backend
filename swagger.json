@@ -116,14 +116,6 @@
       "post": {
         "tags": ["Auth"],
         "summary": "User logout",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "description": "The token issued to the current user."
-          }
-        ],
         "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
@@ -145,14 +137,6 @@
       "get": {
         "tags": ["Auth"],
         "summary": "Info about current user",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "description": "The token issued to the current user."
-          }
-        ],
         "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
@@ -176,14 +160,6 @@
       "patch": {
         "tags": ["Auth"],
         "summary": "Update User info",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "description": "The token issued to the current user."
-          }
-        ],
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "User data",
@@ -253,14 +229,6 @@
       "get": {
         "tags": ["Recipes"],
         "summary": "Get recipes category-list",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "description": "The token issued to the current user."
-          }
-        ],
         "security": [{ "Bearer": [] }],
         "responses": {
           "201": {
@@ -283,14 +251,6 @@
       "get": {
         "tags": ["Recipes"],
         "summary": "Randomly get 4 categories (3 drinks each) for main page",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "description": "The token issued to the current user"
-          }
-        ],
         "security": [{ "Bearer": [] }],
         "responses": {
           "201": {
@@ -314,12 +274,6 @@
         "tags": ["Recipes"],
         "summary": "Get recipe by id",
         "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "description": "The token issued to the current user"
-          },
           {
             "in": "path",
             "name": "id",
@@ -358,12 +312,6 @@
         "tags": ["Recipes"],
         "summary": "Get recipes by query",
         "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "description": "The token issued to the current user"
-          },
           {
             "in": "query",
             "name": "search",
@@ -415,14 +363,6 @@
       "get": {
         "tags": ["Recipes"],
         "summary": "Get top 4 popular recipes",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "description": "The token issued to the current user"
-          }
-        ],
         "security": [{ "Bearer": [] }],
         "responses": {
           "201": {
@@ -449,12 +389,6 @@
         "tags": ["Recipes"],
         "summary": "Add/delete recipe from user favorites",
         "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "description": "The token issued to the current user."
-          },
           {
             "in": "path",
             "name": "id",
@@ -494,12 +428,6 @@
         "summary": "Get recipes from user favorites",
         "parameters": [
           {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "description": "The token issued to the current user."
-          },
-          {
             "in": "query",
             "name": "page",
             "description": "Use page query for pagination. Default page=1"
@@ -535,14 +463,6 @@
       "get": {
         "tags": ["Glass"],
         "summary": "Get glass list",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "description": "The token issued to the current user."
-          }
-        ],
         "security": [{ "Bearer": [] }],
         "responses": {
           "201": {
@@ -565,14 +485,6 @@
       "post": {
         "tags": ["MyRecipes"],
         "summary": "Add user's recipe",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "description": "The token issued to the current user."
-          }
-        ],
         "security": [{ "Bearer": [] }],
         "requestBody": {
           "description": "User's recipe object",
@@ -607,14 +519,6 @@
       "get": {
         "tags": ["MyRecipes"],
         "summary": "Get user's drink",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "description": "The token issued to the current user"
-          }
-        ],
         "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
@@ -636,12 +540,6 @@
             "name": "drinkId",
             "required": true,
             "description": "ID of drink"
-          },
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "description": "The token issued to the current user"
           }
         ],
         "security": [{ "Bearer": [] }],
@@ -662,14 +560,6 @@
       "get": {
         "tags": ["Ingredients"],
         "summary": "Get all ingredients list",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": true,
-            "description": "The token issued to the current user."
-          }
-        ],
         "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
