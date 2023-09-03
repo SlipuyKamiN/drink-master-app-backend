@@ -746,8 +746,8 @@
           },
           "password": {
             "type": "string",
-            "description": "User's password",
-            "example": "Qwerty123"
+            "description": "User's password (min. 6, max. 16, 1 digit, 1 uppercase and 1 lower case",
+            "example": "Qwerty12345v"
           }
         }
       },
@@ -778,6 +778,10 @@
             "type": "string",
             "description": "User's token",
             "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWNiNTZlN2M4M2IwMmY1Yjc5NzA5ZCIsImlhdCI6MTY5MzIzNTM0MSwiZXhwIjoxNjkzMzE4MTQxfQ.QarylEOCqImrtibxJRXtxOWIJDecBvUVfLy6mAvlrPQ"
+          },
+          "sinceSignUp": {
+            "type": "integer",
+            "description": "miliseconds since user sign up"
           }
         },
         "example": {
@@ -785,7 +789,8 @@
           "name": "Alex",
           "email": "user@gmail.com",
           "avatarURL": "//www.gravatar.com/avatar/d9e6b34c905e346796a4d1eda209400e",
-          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWNiNTZlN2M4M2IwMmY1Yjc5NzA5ZCIsImlhdCI6MTY5MzIzNTM0MSwiZXhwIjoxNjkzMzE4MTQxfQ.QarylEOCqImrtibxJRXtxOWIJDecBvUVfLy6mAvlrPQ"
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0ZWNiNTZlN2M4M2IwMmY1Yjc5NzA5ZCIsImlhdCI6MTY5MzIzNTM0MSwiZXhwIjoxNjkzMzE4MTQxfQ.QarylEOCqImrtibxJRXtxOWIJDecBvUVfLy6mAvlrPQ",
+          "sinceSignUp": 593504053
         }
       },
       "CurrentResponse": {
