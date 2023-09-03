@@ -29,7 +29,12 @@ const login = async (req, res) => {
     { token },
     { new: true, select: "avatarURL name email token" }
   );
-  res.json(userData);
+
+  const currentTime = Date.now();
+  const createdAt = user.createdAt.getTime();
+  const sinceSignUp = currentTime - createdAt;
+
+  res.json({ userData, sinceSignUp });
 };
 
 export default ctrlWrapper(login);
