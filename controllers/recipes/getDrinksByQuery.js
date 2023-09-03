@@ -5,18 +5,12 @@ const getDrinksByQuery = async (req, res) => {
   const { search, category, ingredient, page = 1, limit = 8 } = req.query;
 
   const query = {};
-
-  if (search) {
-    query.drink = { $regex: search, $options: "i" };
-  }
-  if (category) {
-    query.category = category;
-  }
-  if (ingredient) {
-    query.ingredients = {
+  search && (query.drink = { $regex: search, $options: "i" });
+  category && (query.category = category);
+  ingredient &&
+    (query.ingredients = {
       $elemMatch: { title: ingredient },
-    };
-  }
+    });
 
   const totalHits = await Cocktail.countDocuments(query);
   const pageNumber = parseInt(page);
