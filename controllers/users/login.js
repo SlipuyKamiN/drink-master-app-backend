@@ -24,17 +24,22 @@ const login = async (req, res) => {
   };
 
   const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "23h" });
-  const userData = await User.findByIdAndUpdate(
-    user._id,
-    { token },
-    { new: true, select: "avatarURL name email token" }
-  );
+  await User.findByIdAndUpdate(user._id, { token }, { new: true });
 
   const currentTime = Date.now();
   const createdAt = user.createdAt.getTime();
   const sinceSignUp = currentTime - createdAt;
 
-  res.json({ userData, sinceSignUp });
+  const userData = {
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    avatarURL: user.avatarURL,
+    token,
+    sinceSignUp,
+  };
+
+  res.json(userData);
 };
 
 export default ctrlWrapper(login);
