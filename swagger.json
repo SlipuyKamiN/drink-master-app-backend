@@ -522,7 +522,14 @@
         "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
-            "description": "User's drinks were found"
+            "description": "User's drinks were found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRecipesResponse"
+                }
+              }
+            }
           },
           "401": {
             "description": "Missing header with authorization token"
@@ -1462,11 +1469,58 @@
           },
           "category": {
             "type": "string",
-            "description": "Drink category"
+            "enum": [
+              "Ordinary Drink",
+              "Cocktail",
+              "Shake",
+              "Other",
+              "Cocoa",
+              "Shot",
+              "Coffee / Tea",
+              "Homemade Liqueur",
+              "Punch / Party Drink",
+              "Beer",
+              "Soft Drink"
+            ],
+            "description": "Select drink category"
           },
           "glass": {
             "type": "string",
-            "description": "Type of glass for drink"
+            "enum": [
+              "Highball glass",
+              "Cocktail glass",
+              "Old-fashioned glass",
+              "Whiskey Glass",
+              "Collins glass",
+              "Pousse cafe glass",
+              "Champagne flute",
+              "Whiskey sour glass",
+              "Cordial glass",
+              "Brandy snifter",
+              "White wine glass",
+              "Nick and Nora Glass",
+              "Hurricane glass",
+              "Coffee mug",
+              "Shot glass",
+              "Jar",
+              "Irish coffee cup",
+              "Punch bowl",
+              "Pitcher",
+              "Pint glass",
+              "Copper Mug",
+              "Wine Glass",
+              "Beer mug",
+              "Margarita / Coupette glass",
+              "Beer pilsner",
+              "Beer Glass",
+              "Parfait glass",
+              "Mason jar",
+              "Margarita glass",
+              "Martini Glass",
+              "Balloon Glass",
+              "Coupe Glass"
+            ],
+            "description": "Select type of glass for drink"
           },
           "instructions": {
             "type": "array",
@@ -1627,6 +1681,163 @@
           "_id": "64ef15d88feb311711387228",
           "createdAt": "2023-08-30T10:11:36.357Z",
           "updatedAt": "2023-08-30T10:11:36.357Z"
+        }
+      },
+      "UserRecipesResponse": {
+        "type": "object",
+        "properties": {
+          "totalHits": {
+            "type": "integer",
+            "description": "The total number of user's drinks."
+          },
+          "result": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string"
+                },
+                "drink": {
+                  "type": "string"
+                },
+                "tags": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "category": {
+                  "type": "string"
+                },
+                "glass": {
+                  "type": "string"
+                },
+                "instructions": {
+                  "type": "string"
+                },
+                "drinkThumb": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "ingredients": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "_id": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "measure": {
+                        "type": "string"
+                      },
+                      "ingredientThumb": {
+                        "type": "string",
+                        "format": "uri"
+                      },
+                      "thumbMedium": {
+                        "type": "string",
+                        "format": "uri"
+                      },
+                      "thumbSmall": {
+                        "type": "string",
+                        "format": "uri"
+                      }
+                    }
+                  }
+                },
+                "owner": {
+                  "type": "string"
+                },
+                "users": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        },
+        "example": {
+          "totalHits": 2,
+          "result": [
+            {
+              "_id": "64f57a486602eb38affc1fcc",
+              "drink": "Some cocktail",
+              "description": "some info",
+              "tags": [],
+              "category": "Ordinary Drink",
+              "glass": "Highball glass",
+              "instructions": "some info",
+              "drinkThumb": "https://res.cloudinary.com/dbvxfxxjv/image/upload/v1693809222/recipes/afjzq41grsupu2r9enpi.jpg",
+              "ingredients": [
+                {
+                  "title": "Light rum",
+                  "measure": "2 oz",
+                  "ingredientThumb": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Light%20rum.png",
+                  "thumbMedium": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Light%20rum-Medium.png",
+                  "thumbSmall": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Light%20rum-Small.png",
+                  "_id": "64f57a486602eb38affc1fcd"
+                },
+                {
+                  "title": "Applejack",
+                  "measure": "2 oz",
+                  "ingredientThumb": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169604/cocktails-v1/ingredient/Applejack.png",
+                  "thumbMedium": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169604/cocktails-v1/ingredient/Applejack-Medium.png",
+                  "thumbSmall": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169604/cocktails-v1/ingredient/Applejack-Small.png",
+                  "_id": "64f57a486602eb38affc1fce"
+                }
+              ],
+              "owner": "64f3576bf11edbfa4173926e",
+              "users": [],
+              "createdAt": "2023-09-04T06:33:44.606Z",
+              "updatedAt": "2023-09-04T06:33:44.606Z"
+            },
+            {
+              "_id": "64f579b8ddeab2be96c5e9a7",
+              "drink": "Some cocktail",
+              "description": "some info",
+              "tags": [],
+              "category": "Ordinary Drink",
+              "glass": "Highball glass",
+              "instructions": "some info",
+              "drinkThumb": "https://res.cloudinary.com/dbvxfxxjv/image/upload/v1693809078/recipes/pmo0x6rkjgbguyrfcbrm.jpg",
+              "ingredients": [
+                {
+                  "title": "Light rum",
+                  "measure": "2 oz",
+                  "ingredientThumb": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Light%20rum.png",
+                  "thumbMedium": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Light%20rum-Medium.png",
+                  "thumbSmall": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169605/cocktails-v1/ingredient/Light%20rum-Small.png",
+                  "_id": "64f579b8ddeab2be96c5e9a8"
+                },
+                {
+                  "title": "Applejack",
+                  "measure": "2 oz",
+                  "ingredientThumb": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169604/cocktails-v1/ingredient/Applejack.png",
+                  "thumbMedium": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169604/cocktails-v1/ingredient/Applejack-Medium.png",
+                  "thumbSmall": "http://res.cloudinary.com/dec1shvoo/image/upload/v1689169604/cocktails-v1/ingredient/Applejack-Small.png",
+                  "_id": "64f579b8ddeab2be96c5e9a9"
+                }
+              ],
+              "owner": "64f3576bf11edbfa4173926e",
+              "users": [],
+              "createdAt": "2023-09-04T06:31:20.315Z",
+              "updatedAt": "2023-09-04T06:31:20.315Z"
+            }
+          ]
         }
       },
       "IngredientsListResponse": {
