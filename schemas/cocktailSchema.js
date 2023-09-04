@@ -78,7 +78,7 @@ const cocktailSchema = Joi.object({
       .messages({ "any.required": "The ingredients field is required" })
   ),
   instructions: Joi.alternatives()
-    .try(Joi.array().items(Joi.string), Joi.string())
+    .try(Joi.string(), Joi.array())
     .required()
     .messages({ "any.required": "The instructions field is required" }),
 });
