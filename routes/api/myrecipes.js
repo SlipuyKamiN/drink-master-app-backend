@@ -18,8 +18,8 @@ router.post(
   "/",
   authenticate,
   upload.single("recipe"),
-  validateBody(schemas.cocktailSchema),
   parseJson,
+  validateBody(schemas.cocktailSchema),
   addMyRecipe
 );
 router.delete("/:id", authenticate, deleteMyRecipe);
